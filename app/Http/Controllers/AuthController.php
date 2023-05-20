@@ -63,7 +63,7 @@ class AuthController extends Controller
 
         if(!$this->userService->isAuthorized($request))
         {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['errors' => 'Unauthorized'], 401);
         }
 
         $user = $this->userService->findUserByEmail($request->email);
