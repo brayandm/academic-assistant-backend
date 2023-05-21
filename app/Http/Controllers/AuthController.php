@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         $token = $this->userService->createUserToken($user);
 
-        return response()->json(['user' => $user, 'access_token' => $token, 'token_type' => 'Bearer']);
+        return response()->json(['access_token' => $token, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => intval(config('auth.token_expiration'))]);
     }
 
     public function login(Request $request)
@@ -70,7 +70,7 @@ class AuthController extends Controller
 
         $token = $this->userService->createUserToken($user);
 
-        return response()->json(['user' => $user, 'access_token' => $token, 'token_type' => 'Bearer']);
+        return response()->json(['access_token' => $token, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => intval(config('auth.token_expiration'))]);
     }
 
     public function logout(Request $request)
