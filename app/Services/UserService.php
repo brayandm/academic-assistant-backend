@@ -44,4 +44,15 @@ class UserService
     {
         $user->tokens()->delete();
     }
+
+    public function getPermissions($user)
+    {
+        $permissions = [];
+
+        foreach ($user->roles as $role) {
+            $permissions[] = $role->name;
+        }
+
+        return $permissions;
+    }
 }

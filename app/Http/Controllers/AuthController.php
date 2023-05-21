@@ -41,8 +41,7 @@ class AuthController extends Controller
     {
         $validator = $this->validateCorrectRegisterUser($request);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
@@ -50,20 +49,20 @@ class AuthController extends Controller
 
         $token = $this->userService->createUserToken($user);
 
-        return response()->json(['access_token' => $token->plainTextToken, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => $token->accessToken->expires_at]);
+        $permissions = $this->userService->getPermissions($user);
+
+        return response()->json(['access_token' => $token->plainTextToken, 'token_type' => 'bearer', 'permissions' => $permissions, 'expires_in' => $token->accessToken->expires_at]);
     }
 
     public function login(Request $request)
     {
         $validator = $this->validateCorrectLoginUser($request);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        if(!$this->userService->isAuthorized($request))
-        {
+        if (!$this->userService->isAuthorized($request)) {
             return response()->json(['errors' => 'Unauthorized'], 401);
         }
 
@@ -71,7 +70,9 @@ class AuthController extends Controller
 
         $token = $this->userService->createUserToken($user);
 
-        return response()->json(['access_token' => $token->plainTextToken, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => $token->accessToken->expires_at]);
+        $permissions = $this->userService->getPermissions($user);
+
+        return response()->json(['access_token' => $token->plainTextToken, 'token_type' => 'bearer', 'permissions' => $permissions, 'expires_in' => $token->accessToken->expires_at]);
     }
 
     public function logout(Request $request)
