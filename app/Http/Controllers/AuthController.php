@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Services\UserService;
@@ -49,7 +50,7 @@ class AuthController extends Controller
 
         $token = $this->userService->createUserToken($user);
 
-        return response()->json(['access_token' => $token, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => intval(config('auth.token_expiration'))]);
+        return response()->json(['access_token' => $token, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => Carbon::now()->addSeconds(intval(config('auth.token_expiration')))]);
     }
 
     public function login(Request $request)
@@ -70,7 +71,7 @@ class AuthController extends Controller
 
         $token = $this->userService->createUserToken($user);
 
-        return response()->json(['access_token' => $token, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => intval(config('auth.token_expiration'))]);
+        return response()->json(['access_token' => $token, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => Carbon::now()->addSeconds(intval(config('auth.token_expiration')))]);
     }
 
     public function logout(Request $request)
