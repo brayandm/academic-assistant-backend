@@ -14,5 +14,6 @@ type Mutation @guard {
     me: User @auth
 }
 
+#import enums/*.graphql
 #import types/*.graphql
 #import queries/*.graphql
