@@ -22,7 +22,7 @@ class UserService
 
     public function createUserToken(User $user)
     {
-        return $user->createToken('auth_token', [], Carbon::now()->addSeconds(config('auth.token_expiration')))->plainTextToken;
+        return $user->createToken('auth_token', [], Carbon::now()->addSeconds(config('auth.token_expiration')));
     }
 
     public function findUserByEmail($email)

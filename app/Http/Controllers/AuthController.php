@@ -50,7 +50,7 @@ class AuthController extends Controller
 
         $token = $this->userService->createUserToken($user);
 
-        return response()->json(['access_token' => $token, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => Carbon::now()->addSeconds(intval(config('auth.token_expiration')))]);
+        return response()->json(['access_token' => $token->plainTextToken, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => $token->accessToken->expires_at]);
     }
 
     public function login(Request $request)
@@ -71,7 +71,7 @@ class AuthController extends Controller
 
         $token = $this->userService->createUserToken($user);
 
-        return response()->json(['access_token' => $token, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => Carbon::now()->addSeconds(intval(config('auth.token_expiration')))]);
+        return response()->json(['access_token' => $token->plainTextToken, 'token_type' => 'bearer', 'permissions' => [], 'expires_in' => $token->accessToken->expires_at]);
     }
 
     public function logout(Request $request)
