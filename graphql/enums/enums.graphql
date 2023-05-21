@@ -1,0 +1,5 @@
+enum UsersRoles {
+    STUDENT
+    TEACHER
+    ADMIN
+}
