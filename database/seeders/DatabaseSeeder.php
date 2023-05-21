@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
-        foreach(['Student', 'Teacher', 'Admin'] as $role) {
+        foreach (['student', 'teacher', 'admin'] as $role) {
             Role::factory()->create([
                 'name' => $role,
             ]);
