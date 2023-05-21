@@ -24,7 +24,7 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
                 The name of the role authorized users need to have.
                 """
                 requiredRoles: [UsersRoles!]!
-            ) on FIELD_DEFINITION
+            ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
             GRAPHQL;
     }
 
