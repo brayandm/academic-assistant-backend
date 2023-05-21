@@ -30,7 +30,7 @@ class UserService
         return User::where('email', $email)->firstOrFail();
     }
 
-    public function isAuthenticated($data)
+    public function isCredentialsCorrect($data)
     {
         return Auth::attempt($data->only('email', 'password'));
     }
