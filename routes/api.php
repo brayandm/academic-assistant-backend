@@ -18,11 +18,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', 'App\Http\Controllers\AuthController@register');
+// Route::post('/register', 'App\Http\Controllers\AuthController@register');
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['check.constant.connection', 'auth:sanctum'])->group(function () {
 
     Route::get('/verify', 'App\Http\Controllers\AuthController@verify');
 
