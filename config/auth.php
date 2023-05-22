@@ -113,4 +113,6 @@ return [
     'password_timeout' => 10800,
 
     'token_expiration' => env('TOKEN_EXPIRATION', 10800),
+
+    'max_age_session' => env('MAX_AGE_SESSION', 1800),
 ];
