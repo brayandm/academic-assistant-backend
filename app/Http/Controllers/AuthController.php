@@ -74,6 +74,11 @@ class AuthController extends Controller
         return response()->json(['access_token' => $token->plainTextToken, 'token_type' => 'bearer', 'permissions' => $permissions, 'expires_in' => $token->accessToken->expires_at]);
     }
 
+    public function verify()
+    {
+        return response()->json(['message' => 'Successful verification']);
+    }
+
     public function logout(Request $request)
     {
         $user = $this->userService->findUserByEmail(auth()->user()->email);
