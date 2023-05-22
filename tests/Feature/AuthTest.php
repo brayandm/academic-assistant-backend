@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
@@ -24,7 +24,7 @@ class AuthTest extends TestCase
             [
                 'name' => 'Testing User',
                 'email' => 'user@testing.com',
-                'password' => '12345678'
+                'password' => '12345678',
             ]
         );
 
@@ -40,7 +40,7 @@ class AuthTest extends TestCase
             [
                 'name' => 'Testing User',
                 'email' => 'user@testing.com',
-                'password' => '12345678'
+                'password' => '12345678',
             ]
         );
 
@@ -73,7 +73,7 @@ class AuthTest extends TestCase
             [
                 'name' => 'Testing User',
                 'email' => 'user',
-                'password' => '12345678'
+                'password' => '12345678',
             ]
         );
 
@@ -87,7 +87,7 @@ class AuthTest extends TestCase
 
         $response = $this->post('/api/login', [
             'email' => 'user',
-            'password' => '12345678'
+            'password' => '12345678',
         ]);
 
         $response->assertStatus(400);
@@ -98,7 +98,7 @@ class AuthTest extends TestCase
 
         $response = $this->post('/api/login', [
             'email' => 'user@testing.com',
-            'password' => '123456789'
+            'password' => '123456789',
         ]);
 
         $response->assertStatus(401);
@@ -109,7 +109,7 @@ class AuthTest extends TestCase
 
         $response = $this->post('/api/login', [
             'email' => 'user@testing.com',
-            'password' => '12345678'
+            'password' => '12345678',
         ]);
 
         $response->assertStatus(200);
@@ -122,7 +122,7 @@ class AuthTest extends TestCase
 
         //Logout
 
-        $response = $this->post('/api/logoutall', [], ['Authorization' => 'Bearer ' . $token]);
+        $response = $this->post('/api/logoutall', [], ['Authorization' => 'Bearer '.$token]);
 
         $response->assertStatus(200);
 

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Services\UserService;
 
 class AuthController extends Controller
 {
@@ -62,7 +61,7 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        if (!$this->userService->isCredentialsCorrect($request)) {
+        if (! $this->userService->isCredentialsCorrect($request)) {
             return response()->json(['errors' => 'Bad credentials'], 401);
         }
 

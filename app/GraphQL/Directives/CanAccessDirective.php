@@ -15,7 +15,7 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
     {
         return
             /** @lang GraphQL */
-            <<<GRAPHQL
+            <<<'GRAPHQL'
             """
             Limit access to users of a certain role.
             """
@@ -38,7 +38,7 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
 
             $user = $context->user();
 
-            if (!$user) {
+            if (! $user) {
                 throw new AuthenticationException('Unauthenticated');
             }
 
@@ -47,7 +47,7 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
             $userRoles = $user->roles->pluck('name')->toArray();
 
             foreach ($requiredRoles as $role) {
-                if (!in_array($role, $userRoles)) {
+                if (! in_array($role, $userRoles)) {
                     throw new AuthenticationException('Unauthorized');
                 }
             }
