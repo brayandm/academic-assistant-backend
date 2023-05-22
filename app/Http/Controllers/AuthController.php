@@ -81,20 +81,20 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        // $user = $this->userService->findUserByEmail(auth()->user()->email);
+        $user = $this->userService->findUserByEmail(auth()->user()->email);
 
-        // $tokenId = explode('|', $request->bearerToken())[0];
+        $tokenId = explode('|', $request->bearerToken())[0];
 
-        // $this->userService->deleteUserTokenById($user, $tokenId);
+        $this->userService->deleteUserTokenById($user, $tokenId);
 
         return response()->json(['message' => 'Successful logout']);
     }
 
     public function logoutall()
     {
-        // $user = $this->userService->findUserByEmail(auth()->user()->email);
+        $user = $this->userService->findUserByEmail(auth()->user()->email);
 
-        // $this->userService->deleteAllUserTokens($user);
+        $this->userService->deleteAllUserTokens($user);
 
         return response()->json(['message' => 'Successful logout']);
     }

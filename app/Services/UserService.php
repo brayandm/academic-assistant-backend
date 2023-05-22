@@ -37,12 +37,12 @@ class UserService
 
     public function deleteUserTokenById($user, $tokenId)
     {
-        $user->tokens()->where('id', $tokenId)->delete();
+        $user->tokens()->where('id', $tokenId)->update(['expires_at' => Carbon::now()]);
     }
 
     public function deleteAllUserTokens($user)
     {
-        $user->tokens()->delete();
+        $user->tokens()->update(['expires_at' => Carbon::now()]);
     }
 
     public function getPermissions($user)
