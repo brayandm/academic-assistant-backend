@@ -19,20 +19,22 @@ class CheckConstantConnection
     {
         $access_token = $request->bearerToken();
 
-        if(!$access_token)abort(401, 'Unauthenticated');
+        if (! $access_token) {
+            abort(401, 'Unauthenticated');
+        }
 
         $tokenId = explode('|', $access_token)[0];
 
         $token = DB::table('personal_access_tokens')->where('id', $tokenId)->first();
 
-        if(!$token)abort(401, 'Unauthenticated');
-
-        if((new Carbon($token->updated_at))->diffInSeconds(Carbon::now(), false) > config('auth.max_age_session'))
-        {
+        if (! $token) {
             abort(401, 'Unauthenticated');
         }
-        if((new Carbon($token->expires_at))->diffInSeconds(Carbon::now(), false) > 0)
-        {
+
+        if ((new Carbon($token->updated_at))->diffInSeconds(Carbon::now(), false) > config('auth.max_age_session')) {
+            abort(401, 'Unauthenticated');
+        }
+        if ((new Carbon($token->expires_at))->diffInSeconds(Carbon::now(), false) > 0) {
             abort(401, 'Unauthenticated');
         }
 
