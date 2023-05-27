@@ -12,6 +12,7 @@ final class Translate
     {
         $this->translationService = $translationService;
     }
+
     public function translate($root, array $args)
     {
         $originalLanguage = $args['original_language'];
