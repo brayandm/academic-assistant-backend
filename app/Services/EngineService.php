@@ -33,6 +33,7 @@ class EngineService
                     'target_language' => $targetLanguage,
                     'text_type' => $textType,
                     'text' => $text,
+                    'hook' => route('engine.webhook.translate'),
                 ],
             ]);
             $contents = json_decode($result->getBody()->getContents());
@@ -41,5 +42,10 @@ class EngineService
         } catch (GuzzleException $e) {
             throw new AppException('Error in Engine Service', $e->getMessage());
         }
+    }
+
+    public function webhookTranslate(string $taskId, string $status, string $text)
+    {
+        dd($taskId, $status, $text);
     }
 }

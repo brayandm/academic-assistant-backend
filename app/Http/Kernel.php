@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check.constant.connection' => \App\Http\Middleware\CheckConstantConnection::class,
+        'engine.auth' => \App\Http\Middleware\EngineAuth::class,
     ];
 
     protected $middlewarePriority = [
