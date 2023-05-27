@@ -1,10 +1,12 @@
 extend type Query @guard{
     user(
-      id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
-      email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
+        id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+        email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
     ): User @find
+    @canAccess(requiredRoles: [ADMIN])
 
     users(
-      name: String @where(operator: "like")
+        name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
+    @canAccess(requiredRoles: [ADMIN])
 }

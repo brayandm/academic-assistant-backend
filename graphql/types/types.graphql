@@ -6,3 +6,7 @@ type User {
     created_at: DateTime!
     updated_at: DateTime!
 }
+
+type EngineResult {
+    task_id: String!
+}
