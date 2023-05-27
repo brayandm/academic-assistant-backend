@@ -185,4 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'engine_api_token' => env('ENGINE_API_TOKEN'),
+
+    'engine_api_url' => env('ENGINE_API_URL'),
 ];

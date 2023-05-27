@@ -2,15 +2,15 @@
 
 namespace App\GraphQL\Queries;
 
-use App\Services\TranslationService;
+use App\Services\EngineService;
 
 final class Translate
 {
-    private TranslationService $translationService;
+    private EngineService $engineService;
 
-    public function __construct(TranslationService $translationService)
+    public function __construct(EngineService $engineService)
     {
-        $this->translationService = $translationService;
+        $this->engineService = $engineService;
     }
 
     public function translate($root, array $args)
@@ -20,6 +20,6 @@ final class Translate
         $textType = $args['text_type'];
         $text = $args['text'];
 
-        return $this->translationService->translate($originalLanguage, $targetLanguage, $textType, $text);
+        return $this->engineService->translate($originalLanguage, $targetLanguage, $textType, $text);
     }
 }
