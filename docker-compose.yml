@@ -67,6 +67,7 @@ services:
 networks:
     sail:
         driver: bridge
+        external: true
 volumes:
     sail-mysql:
         driver: local
