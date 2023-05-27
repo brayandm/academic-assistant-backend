@@ -39,4 +39,3 @@ Route::middleware(['engine.auth'])->group(function () {
 
     Route::post('/webhook/engine/translate', 'App\Http\Controllers\EngineController@webhookTranslate')->name('engine.webhook.translate');
 });
-
