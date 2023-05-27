@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\AppException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
@@ -38,7 +39,7 @@ class EngineService
 
             return $contents;
         } catch (GuzzleException $e) {
-
+            throw new AppException('Error in Engine Service', $e->getMessage());
         }
     }
 }
