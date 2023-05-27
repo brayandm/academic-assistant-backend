@@ -2,19 +2,22 @@
 
 namespace App\Services;
 
-use GuzzleHttp\{Client, RequestOptions};
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\RequestOptions;
 
 class EngineService
 {
     private $client;
+
     private $baseUrl;
+
     private $token;
 
     public function __construct()
     {
-        $this->token=config('app.engine_api_token');
-        $this->client = new Client(['headers'=>['X-API-Key'=>$this->token]]);
+        $this->token = config('app.engine_api_token');
+        $this->client = new Client(['headers' => ['X-API-Key' => $this->token]]);
         $this->baseUrl = config('app.engine_api_url');
     }
 
@@ -23,15 +26,16 @@ class EngineService
         $url = '/translate';
 
         try {
-            $result = $this->client->post($this->baseUrl . $url, [
+            $result = $this->client->post($this->baseUrl.$url, [
                 RequestOptions::JSON => [
                     'original_language' => $originalLanguage,
                     'target_language' => $targetLanguage,
                     'text_type' => $textType,
                     'text' => $text,
-                ]
+                ],
             ]);
             $contents = json_decode($result->getBody()->getContents());
+
             return $contents;
         } catch (GuzzleException $e) {
 
