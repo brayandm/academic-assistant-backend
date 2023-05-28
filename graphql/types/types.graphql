@@ -10,3 +10,8 @@ type User {
 type TaskId {
     task_id: String!
 }
+
+type TranslationResult {
+    status: String!
+    text: String!
+}

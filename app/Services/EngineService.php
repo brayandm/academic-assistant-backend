@@ -70,6 +70,12 @@ class EngineService
         }
     }
 
+    public function getTranslationResult(string $taskId)
+    {
+        $task = EngineTask::where('task_id', $taskId)->first();
+        return ['status' => $task->task_status, 'text' => $task->result];
+    }
+
     public function webhookTranslate(string $taskId, string $status, string $text)
     {
         $this->updateTask($taskId, $status, $text);
