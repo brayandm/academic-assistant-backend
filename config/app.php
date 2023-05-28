@@ -188,4 +188,6 @@ return [
     'engine_api_token' => env('ENGINE_API_TOKEN'),
 
     'engine_api_url' => env('ENGINE_API_URL'),
+
+    'engine_hook_url' => env('ENGINE_HOOK_URL'),
 ];
