@@ -17,3 +17,4 @@ type Mutation @guard {
 #import enums/*.graphql
 #import types/*.graphql
 #import queries/*.graphql
+#import mutations/*.graphql

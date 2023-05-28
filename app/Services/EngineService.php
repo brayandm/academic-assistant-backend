@@ -46,7 +46,7 @@ class EngineService
         $task->save();
     }
 
-    public function translate(string $originalLanguage, string $targetLanguage, string $textType, string $text)
+    public function createTranslationTask(string $originalLanguage, string $targetLanguage, string $textType, string $text)
     {
         $url = '/translate';
 
