@@ -73,6 +73,7 @@ class EngineService
     public function getTranslationResult(string $taskId)
     {
         $task = EngineTask::where('task_id', $taskId)->first();
+
         return ['status' => $task->task_status, 'text' => $task->result];
     }
 
