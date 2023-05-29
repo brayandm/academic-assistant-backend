@@ -49,7 +49,7 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
 
             foreach ($requiredRoles as $role) {
                 if (! in_array($role, $allowedRoles)) {
-                    throw new Exception('Invalid role provided: ' . $role);
+                    throw new Exception('There are invalid roles declared in the schema');
                 }
             }
 
