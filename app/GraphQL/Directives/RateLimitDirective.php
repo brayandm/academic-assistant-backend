@@ -44,13 +44,13 @@ class RateLimitDirective extends BaseDirective implements FieldMiddleware
                 throw new AuthenticationException('Unauthenticated');
             }
 
-            $key = $resolveInfo->fieldName . ':' . $user->id . ':' . Carbon::now()->format('i');
+            $key = $resolveInfo->fieldName.':'.$user->id.':'.Carbon::now()->format('i');
 
-            if(Redis::setnx($key, 0)) {
+            if (Redis::setnx($key, 0)) {
                 Redis::expire($key, 120);
             }
 
-            if(Redis::incr($key, 1) > $this->directiveArgValue('rpm')) {
+            if (Redis::incr($key, 1) > $this->directiveArgValue('rpm')) {
                 throw new AuthenticationException('Too many requests');
             }
 
