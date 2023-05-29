@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Directives;
 
+use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\AuthenticationException;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
@@ -43,6 +44,14 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
             }
 
             $requiredRoles = $this->directiveArgValue('requiredRoles');
+
+            $allowedRoles = ['STUDENT', 'TEACHER', 'ADMIN'];
+
+            foreach ($requiredRoles as $role) {
+                if (! in_array($role, $allowedRoles)) {
+                    throw new Exception('Invalid role provided: ' . $role);
+                }
+            }
 
             $userRoles = $user->roles->pluck('name')->toArray();
 
