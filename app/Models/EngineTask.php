@@ -15,4 +15,9 @@ class EngineTask extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function aiModels()
+    {
+        return $this->belongsToMany(AiModel::class);
+    }
 }
