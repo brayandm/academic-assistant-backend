@@ -53,7 +53,7 @@ class EngineService
         try {
             $result = $this->client->post($this->baseUrl.$url, [
                 RequestOptions::JSON => [
-                    'user' => auth()->user()->id,
+                    'user' => strval(auth()->user()->id),
                     'original_language' => $originalLanguage,
                     'target_language' => $targetLanguage,
                     'text_type' => $textType,
