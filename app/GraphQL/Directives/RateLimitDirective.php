@@ -52,7 +52,7 @@ class RateLimitDirective extends BaseDirective implements FieldMiddleware
             $rate = $this->directiveArgValue('rate');
             $seconds = $this->directiveArgValue('seconds');
 
-            if(!$rate || !$seconds) {
+            if (! $rate || ! $seconds) {
                 throw new Exception('You must provide a rate and seconds argument in the graphql schema');
             }
 
