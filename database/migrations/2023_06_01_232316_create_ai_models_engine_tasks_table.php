@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('engine_task_id')->constrained()->onDelete('cascade');
             $table->foreignId('ai_model_id')->constrained()->onDelete('cascade');
-            $table->integer('cost');
+            $table->integer('usage');
             $table->timestamps();
         });
     }

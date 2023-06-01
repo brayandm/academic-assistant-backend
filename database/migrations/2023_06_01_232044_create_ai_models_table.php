@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('option');
-            $table->string('cost_type');
+            $table->string('usage_type');
             $table->timestamps();
         });
     }
