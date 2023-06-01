@@ -9,8 +9,10 @@ class AiModel extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function engineTasks()
     {
-        return $this->belongsToMany(EngineTask::class);
+        return $this->belongsToMany(EngineTask::class)->withTimestamps();
     }
 }

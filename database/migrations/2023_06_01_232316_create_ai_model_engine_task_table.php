@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ai_models_engine_tasks', function (Blueprint $table) {
+        Schema::create('ai_model_engine_task', function (Blueprint $table) {
             $table->id();
             $table->foreignId('engine_task_id')->constrained()->onDelete('cascade');
             $table->foreignId('ai_model_id')->constrained()->onDelete('cascade');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ai_models_engine_tasks');
+        Schema::dropIfExists('ai_model_engine_task');
     }
 };

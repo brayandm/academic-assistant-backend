@@ -18,6 +18,6 @@ class EngineTask extends Model
 
     public function aiModels()
     {
-        return $this->belongsToMany(AiModel::class);
+        return $this->belongsToMany(AiModel::class)->withTimestamps();
     }
 }
