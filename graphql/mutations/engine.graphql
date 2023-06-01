@@ -9,5 +9,5 @@ extend type Mutation @guard{
             resolver: "App\\GraphQL\\Mutations\\Translation@createTranslationTask"
         )
     @canAccess(requiredRoles: [TEACHER])
-    @rateLimit(rpm: 5)
+    @rateLimit(rate: 5, seconds: 60)
 }

@@ -3,6 +3,7 @@
 namespace App\GraphQL\Directives;
 
 use Carbon\Carbon;
+use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Redis;
@@ -19,13 +20,17 @@ class RateLimitDirective extends BaseDirective implements FieldMiddleware
             /** @lang GraphQL */
             <<<'GRAPHQL'
             """
-            Limit requests per minute for the current endpoint.
+            Limit requests per some amount of seconds.
             """
             directive @rateLimit(
                 """
-                The maximum number of requests per minute.
+                The maximum number of requests.
                 """
-                rpm: Int!
+                rate: Int!
+                """
+                The number of seconds before the limit resets.
+                """
+                seconds: Int!
             ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
             GRAPHQL;
     }
@@ -44,13 +49,20 @@ class RateLimitDirective extends BaseDirective implements FieldMiddleware
                 throw new AuthenticationException('Unauthenticated');
             }
 
-            $key = $resolveInfo->fieldName.':'.$user->id.':'.Carbon::now()->format('i');
+            $rate = $this->directiveArgValue('rate');
+            $seconds = $this->directiveArgValue('seconds');
 
-            if (Redis::setnx($key, 0)) {
-                Redis::expire($key, 120);
+            if(!$rate || !$seconds) {
+                throw new Exception('You must provide a rate and seconds argument in the graphql schema');
             }
 
-            if (Redis::incr($key, 1) > $this->directiveArgValue('rpm')) {
+            $key = $resolveInfo->fieldName.':'.$user->id.':'.floor(Carbon::now()->timestamp / $seconds);
+
+            if (Redis::setnx($key, 0)) {
+                Redis::expire($key, $seconds * 2);
+            }
+
+            if (Redis::incr($key, 1) > $rate) {
                 throw new AuthenticationException('Too many requests');
             }
 
