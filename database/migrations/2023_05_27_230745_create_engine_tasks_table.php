@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('task_status');
             $table->foreignId('user_id')->constrained();
             $table->string('result_type');
-            $table->string('result');
+            $table->string('result', 10000);
             $table->timestamps();
         });
     }
