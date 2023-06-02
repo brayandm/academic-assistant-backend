@@ -20,13 +20,13 @@ class EngineController extends Controller
         $validator = Validator::make($request->all(), [
             'status' => 'required|string|max:256',
             'task_id' => 'required|string|max:256',
-            'result.text' => 'required|string|max:10000',
+            'result.text' => 'nullable|string|max:10000',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $this->engineService->webhookTranslate($request->task_id, $request->status, $request->result['text']);
+        $this->engineService->webhookTranslate($request->task_id, $request->status, $request->result['text'] ? $request->result['text'] : '');
     }
 }
