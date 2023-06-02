@@ -35,7 +35,7 @@ Route::middleware(['check.constant.connection', 'auth:sanctum'])->group(function
     });
 });
 
-Route::middleware(['engine.auth'])->group(function () {
+Route::middleware(['engine.auth', 'engine.usage'])->group(function () {
 
     Route::post('/webhook/engine/translate', 'App\Http\Controllers\EngineController@webhookTranslate')->name('engine.webhook.translate');
 });

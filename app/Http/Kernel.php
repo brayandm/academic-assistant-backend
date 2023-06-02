@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check.constant.connection' => \App\Http\Middleware\CheckConstantConnection::class,
         'engine.auth' => \App\Http\Middleware\EngineAuth::class,
+        'engine.usage' => \App\Http\Middleware\EngineUsage::class,
     ];
 
     protected $middlewarePriority = [
