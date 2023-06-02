@@ -25,9 +25,9 @@ class EngineUsage
             $engineTask = EngineTask::where('task_id', $task_id)->first();
 
             $aiModel = AiModel::firstOrCreate([
-                'name' =>  $ai_model['name'],
+                'name' => $ai_model['name'],
                 'option' => $ai_model['option'],
-                'usage_type'=> $ai_model['usage_type'],
+                'usage_type' => $ai_model['usage_type'],
             ]);
 
             $engineTask->aiModels()->attach($aiModel->id, ['usage' => $ai_model['usage']]);
