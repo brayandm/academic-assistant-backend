@@ -55,6 +55,14 @@ services:
                 - ping
             retries: 3
             timeout: 5s
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:5.0.2
+        restart: always
+        environment:
+            PMA_HOST: mysql
+        ports:
+            - "8010:80"
 volumes:
     backend-mysql:
     backend-redis:
