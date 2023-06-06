@@ -17,8 +17,6 @@ services:
         build:
             context: .
             dockerfile: docker/Dockerfile-mysql
-        ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
@@ -41,8 +39,6 @@ services:
             timeout: 5s
     redis:
         image: 'redis:alpine'
-        ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
         restart: always
         volumes:
             - 'backend-redis:/data'
