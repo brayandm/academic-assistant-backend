@@ -20,7 +20,6 @@ if [ ! -f /build-lock ]; then
 
   echo '#### Configuring the crontab'
   echo '*	*	*	*	*	(cd /app && php artisan schedule:run || true)' >> /etc/crontab
-  echo '*	*	*	*	*	(echo "holakaka" >> /holee.txt)' >> /etc/crontab
 
   touch /build-lock
 else
