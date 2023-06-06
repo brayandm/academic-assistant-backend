@@ -23,3 +23,5 @@ jobs:
         run: docker compose -f docker-compose.prod.yml build --no-cache
       - name: Starting the containers
         run: docker compose -f docker-compose.prod.yml up -d
+      - name: Removing unused docker images
+        run: docker builder prune -f
