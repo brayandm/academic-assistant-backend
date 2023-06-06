@@ -1,0 +1,25 @@
+name: academic-assistant-backend
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on:
+      - self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          clean: false
+      - name: Copying .env
+        run: echo "${{ secrets.ENV_PRODUCTION }}" > .env
+      - name: Stopping the containers
+        run: docker compose -f docker-compose.prod.yml down
+      - name: Building the containers
+        run: docker compose -f docker-compose.prod.yml build --no-cache
+      - name: Starting the containers
+        run: docker compose -f docker-compose.prod.yml up -d
