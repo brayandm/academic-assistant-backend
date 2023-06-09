@@ -36,6 +36,14 @@ echo '#### Starting cron'
 crontab /etc/crontab
 service cron start
 
+echo '#### Starting supervisor'
+supervisord -c /etc/supervisor/supervisord.conf
+
+echo '#### Starting laravel-worker'
+supervisorctl reread
+supervisorctl update
+supervisorctl start laravel-worker:*
+
 echo '#### Starting server'
 php artisan serve --host=0.0.0.0 --port=80
 
