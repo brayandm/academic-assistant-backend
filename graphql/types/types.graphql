@@ -3,6 +3,7 @@ type User {
     name: String!
     email: String!
     email_verified_at: DateTime
+    roles: [Role!]! @belongsToMany
     created_at: DateTime!
     updated_at: DateTime!
 }
@@ -14,4 +15,9 @@ type TaskId {
 type TranslationResult {
     status: String!
     text: String!
+}
+
+type Role {
+    id: ID!
+    name: String!
 }

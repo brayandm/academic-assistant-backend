@@ -5,8 +5,6 @@ extend type Query @guard{
     ): User @find
     @canAccess(requiredRoles: [ADMIN])
 
-    users(
-        name: String @where(operator: "like")
-    ): [User!]! @paginate(defaultCount: 10)
+    users: [User!]! @paginate(defaultCount: 10)
     @canAccess(requiredRoles: [ADMIN])
 }
