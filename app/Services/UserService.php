@@ -18,7 +18,7 @@ class UserService
             'password' => Hash::make($data->password),
         ]);
 
-        if(isset($data->roles)) {
+        if (isset($data->roles)) {
             $roles = Role::whereIn('name', $data->roles)->get();
             $user->roles()->attach($roles);
         }
