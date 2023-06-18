@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,11 @@ class UserService
             'email' => $data->email,
             'password' => Hash::make($data->password),
         ]);
+
+        if(isset($data->roles)) {
+            $roles = Role::whereIn('name', $data->roles)->get();
+            $user->roles()->attach($roles);
+        }
 
         return $user;
     }

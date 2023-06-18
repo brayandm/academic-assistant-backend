@@ -1,0 +1,12 @@
+extend type Mutation @guard{
+    createUser(
+        name: String! @rules(apply: ["required", "max:255"])
+        email: String! @rules(apply: ["required", "email", "unique:users"])
+        password: String! @rules(apply: ["required", "max:255"])
+        roles: [String!]! @rules(apply: ["required", "exists:roles,name"])
+    ): User
+    @canAccess(requiredRoles: [ADMIN])
+    @field(
+            resolver: "App\\GraphQL\\Mutations\\User@createUser"
+        )
+}
