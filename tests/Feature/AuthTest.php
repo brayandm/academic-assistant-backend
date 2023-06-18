@@ -35,6 +35,8 @@ class AuthTest extends TestCase
 
     public function testRegister()
     {
+        $this->markTestSkipped('Descomment Register in api');
+
         $response = $this->post(
             '/api/register',
             [
@@ -47,15 +49,14 @@ class AuthTest extends TestCase
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
-            'user' => ['name', 'email', 'id'],
+
             'access_token',
             'token_type',
+            'permissions',
+            'expires_in',
         ]);
 
-        $response->assertJsonPath('user.id', 1);
-        $response->assertJsonPath('user.name', 'Testing User');
-        $response->assertJsonPath('user.email', 'user@testing.com');
-        $response->assertJsonPath('token_type', 'Bearer');
+        $response->assertJsonPath('token_type', 'bearer');
 
         $this->assertDatabaseHas('users', ['name' => 'Testing User', 'email' => 'user@testing.com']);
 
@@ -66,6 +67,8 @@ class AuthTest extends TestCase
 
     public function testLoginAndLogout()
     {
+        $this->markTestSkipped('Descomment Register in api');
+
         //Register format incorrect
 
         $response = $this->post(

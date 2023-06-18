@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 
+// Route::post('/register', 'App\Http\Controllers\AuthController@register');
+
 Route::middleware(['check.constant.connection', 'auth:sanctum'])->group(function () {
 
     Route::get('/verify', 'App\Http\Controllers\AuthController@verify');
