@@ -33,7 +33,7 @@ class AuthTest extends TestCase
         return $response;
     }
 
-    public function test_register()
+    public function testRegister()
     {
         $response = $this->post(
             '/api/register',
@@ -64,7 +64,7 @@ class AuthTest extends TestCase
         return $response;
     }
 
-    public function test_login_and_logout()
+    public function testLoginAndLogout()
     {
         //Register format incorrect
 
