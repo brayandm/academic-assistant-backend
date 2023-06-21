@@ -19,33 +19,33 @@ class DatabaseSeeder extends Seeder
         // POLICIES
 
         $userManagementPolicy = Policy::factory()->create([
-            'name' => "USER_MANAGEMENT",
+            'name' => 'USER_MANAGEMENT',
         ]);
 
         $translationTaskManagementPolicy = Policy::factory()->create([
-            'name' => "TRANSLATION_TASK_MANAGEMENT",
+            'name' => 'TRANSLATION_TASK_MANAGEMENT',
         ]);
 
         $adminPortalAccessPolicy = Policy::factory()->create([
-            'name' => "ADMIN_PORTAL_ACCESS",
+            'name' => 'ADMIN_PORTAL_ACCESS',
         ]);
 
         $teacherPortalAccessPolicy = Policy::factory()->create([
-            'name' => "TEACHER_PORTAL_ACCESS",
+            'name' => 'TEACHER_PORTAL_ACCESS',
         ]);
 
         // ROLES
 
         $studentRole = Role::factory()->create([
-            'name' => "STUDENT"
+            'name' => 'STUDENT',
         ]);
 
         $teacherRole = Role::factory()->create([
-            'name' => "TEACHER"
+            'name' => 'TEACHER',
         ]);
 
         $adminRole = Role::factory()->create([
-            'name' => "ADMIN"
+            'name' => 'ADMIN',
         ]);
 
         // ATTACH POLICIES TO ROLES
