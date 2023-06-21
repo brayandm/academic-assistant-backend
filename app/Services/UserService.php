@@ -51,14 +51,8 @@ class UserService
         $user->tokens()->update(['expires_at' => Carbon::now()]);
     }
 
-    public function getPermissions($user)
+    public function getPolicies($user)
     {
-        $permissions = [];
-
-        foreach ($user->roles as $role) {
-            $permissions[] = $role->name;
-        }
-
-        return $permissions;
+        return $user->policies()->get()->pluck('name');
     }
 }

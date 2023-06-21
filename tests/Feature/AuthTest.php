@@ -52,7 +52,7 @@ class AuthTest extends TestCase
 
             'access_token',
             'token_type',
-            'permissions',
+            'policies',
             'expires_in',
         ]);
 
