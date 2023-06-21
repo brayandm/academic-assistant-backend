@@ -1,0 +1,4 @@
+extend type Query @guard{
+    roles: [Role!]! @all
+    @canAccess(requiredPolicies: [USER_MANAGEMENT])
+}
