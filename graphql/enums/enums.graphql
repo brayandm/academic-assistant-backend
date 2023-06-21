@@ -1,5 +1,12 @@
-enum UsersRoles {
+enum UserRoles {
     STUDENT
     TEACHER
     ADMIN
+}
+
+enum UserPolicies {
+    USER_MANAGEMENT
+    TRANSLATION_TASK_MANAGEMENT
+    ADMIN_PORTAL_ACCESS
+    TEACHER_PORTAL_ACCESS
 }
