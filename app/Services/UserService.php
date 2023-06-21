@@ -53,6 +53,6 @@ class UserService
 
     public function getPolicies($user)
     {
-        return $user->policies()->get()->pluck('name');
+        return $user->policies()->pluck('name');
     }
 }
