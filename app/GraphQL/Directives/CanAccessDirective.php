@@ -19,11 +19,11 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
             /** @lang GraphQL */
             <<<'GRAPHQL'
             """
-            Limit access to users of a certain role.
+            Limit the access to users using policies.
             """
             directive @canAccess(
                 """
-                The name of the role authorized users need to have.
+                The name of the policies that users need to have.
                 """
                 requiredPolicies: [UserPolicies!]!
             ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
