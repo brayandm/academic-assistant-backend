@@ -4,9 +4,15 @@ extend type Mutation @guard{
         email: String! @rules(apply: ["required", "email", "unique:users"])
         password: String! @rules(apply: ["required", "max:255"])
         roles: [String!]! @rules(apply: ["required", "exists:roles,name"])
-    ): User
+    ): User!
     @canAccess(requiredPolicies: [USER_MANAGEMENT])
     @field(
             resolver: "App\\GraphQL\\Mutations\\User@createUser"
         )
+
+    deleteUser(
+        id: ID! @rules(apply: ["required", "exists:users,id"]) @whereKey
+    ): User!
+    @canAccess(requiredPolicies: [USER_MANAGEMENT])
+    @delete
 }
