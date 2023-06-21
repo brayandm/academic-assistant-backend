@@ -54,7 +54,7 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
                 }
             }
 
-            $userPolicies = $user->policies->pluck('name')->toArray();
+            $userPolicies = $user->roles->pluck('policies')->flatten()->unique('id')->pluck('name')->toArray();
 
             foreach ($requiredPolicies as $policy) {
                 if (! in_array($policy, $userPolicies)) {

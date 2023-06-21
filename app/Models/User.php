@@ -45,16 +45,11 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class)->withTimestamps();
+        return $this->belongsToMany(Role::class)->withTimestamps()->with('policies');
     }
 
     public function engineTasks()
     {
         return $this->hasMany(EngineTask::class);
-    }
-
-    public function policies()
-    {
-        return $this->roles()->with('policies')->get()->pluck('policies')->flatten()->unique('id');
     }
 }
