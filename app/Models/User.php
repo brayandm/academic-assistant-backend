@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(EngineTask::class);
     }
+
+    public function policies()
+    {
+        return $this->roles()->with('policies')->get()->pluck('policies')->flatten()->unique('id');
+    }
 }
