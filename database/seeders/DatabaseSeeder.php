@@ -26,12 +26,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'TRANSLATION_TASK_MANAGEMENT',
         ]);
 
-        $adminPortalAccessPolicy = Policy::factory()->create([
-            'name' => 'ADMIN_PORTAL_ACCESS',
+        $adminDashboardAccessPolicy = Policy::factory()->create([
+            'name' => 'ADMIN_DASHBOARD_ACCESS',
         ]);
 
-        $teacherPortalAccessPolicy = Policy::factory()->create([
-            'name' => 'TEACHER_PORTAL_ACCESS',
+        $teacherDashboardAccessPolicy = Policy::factory()->create([
+            'name' => 'TEACHER_DASHBOARD_ACCESS',
         ]);
 
         // ROLES
@@ -50,9 +50,9 @@ class DatabaseSeeder extends Seeder
 
         // ATTACH POLICIES TO ROLES
 
-        $teacherRole->policies()->sync([$translationTaskManagementPolicy->id, $teacherPortalAccessPolicy->id]);
+        $teacherRole->policies()->sync([$translationTaskManagementPolicy->id, $teacherDashboardAccessPolicy->id]);
 
-        $adminRole->policies()->sync([$userManagementPolicy->id, $adminPortalAccessPolicy->id]);
+        $adminRole->policies()->sync([$userManagementPolicy->id, $adminDashboardAccessPolicy->id]);
 
         // USERS
 
