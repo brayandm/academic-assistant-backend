@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Directives;
 
+use App\Models\Policy;
 use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\AuthenticationException;
@@ -24,7 +25,7 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
                 """
                 The name of the role authorized users need to have.
                 """
-                requiredRoles: [UsersRoles!]!
+                requiredPolicies: [UserPolicies!]!
             ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
             GRAPHQL;
     }
@@ -43,20 +44,20 @@ class CanAccessDirective extends BaseDirective implements FieldMiddleware
                 throw new AuthenticationException('Unauthenticated');
             }
 
-            $requiredRoles = $this->directiveArgValue('requiredRoles');
+            $requiredPolicies = $this->directiveArgValue('requiredPolicies');
 
-            $allowedRoles = ['STUDENT', 'TEACHER', 'ADMIN'];
+            $allowedPolicies = Policy::all()->pluck('name')->toArray();
 
-            foreach ($requiredRoles as $role) {
-                if (! in_array($role, $allowedRoles)) {
-                    throw new Exception('There are invalid roles declared in the schema');
+            foreach ($requiredPolicies as $policy) {
+                if (! in_array($policy, $allowedPolicies)) {
+                    throw new Exception('There are invalid policies declared in the schema');
                 }
             }
 
-            $userRoles = $user->roles->pluck('name')->toArray();
+            $userPolicies = $user->policies->pluck('name')->toArray();
 
-            foreach ($requiredRoles as $role) {
-                if (! in_array($role, $userRoles)) {
+            foreach ($requiredPolicies as $policy) {
+                if (! in_array($policy, $userPolicies)) {
                     throw new AuthenticationException('Unauthorized');
                 }
             }
