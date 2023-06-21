@@ -2,7 +2,7 @@ extend type Query @guard{
     getTranslationResult(
         task_id: String @rules(apply: ["required", "max:256"])
     ): TranslationResult
-    @canAccess(requiredRoles: [TEACHER])
+    @canAccess(requiredPolicies: [TRANSLATION_TASK_MANAGEMENT])
     @field(
             resolver: "App\\GraphQL\\Queries\\Translation@getTranslationResult"
         )

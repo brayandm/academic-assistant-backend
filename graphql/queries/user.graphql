@@ -3,8 +3,8 @@ extend type Query @guard{
         id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
         email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
     ): User @find
-    @canAccess(requiredRoles: [ADMIN])
+    @canAccess(requiredPolicies: [USER_MANAGEMENT])
 
     users: [User!]! @paginate(defaultCount: 10)
-    @canAccess(requiredRoles: [ADMIN])
+    @canAccess(requiredPolicies: [USER_MANAGEMENT])
 }

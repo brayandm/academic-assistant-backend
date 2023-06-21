@@ -5,7 +5,7 @@ extend type Mutation @guard{
         text_type: String @rules(apply: ["required", "max:256"])
         text: String @rules(apply: ["required", "max:5000"])
     ): TaskId
-    @canAccess(requiredRoles: [TEACHER])
+    @canAccess(requiredPolicies: [TRANSLATION_TASK_MANAGEMENT])
     @rateLimit(rate: 30, seconds: 86400)
     @field(
             resolver: "App\\GraphQL\\Mutations\\Translation@createTranslationTask"
