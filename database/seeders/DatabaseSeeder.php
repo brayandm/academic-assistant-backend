@@ -34,6 +34,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'TEACHER_DASHBOARD_ACCESS',
         ]);
 
+        $aiAssistantDashboardAccessPolicy = Policy::factory()->create([
+            'name' => 'AI_ASSISTANT_DASHBOARD_ACCESS',
+        ]);
+
         // ROLES
 
         $studentRole = Role::factory()->create([
@@ -50,7 +54,7 @@ class DatabaseSeeder extends Seeder
 
         // ATTACH POLICIES TO ROLES
 
-        $teacherRole->policies()->sync([$translationTaskManagementPolicy->id, $teacherDashboardAccessPolicy->id]);
+        $teacherRole->policies()->sync([$translationTaskManagementPolicy->id, $teacherDashboardAccessPolicy->id, $aiAssistantDashboardAccessPolicy->id]);
 
         $adminRole->policies()->sync([$userManagementPolicy->id, $adminDashboardAccessPolicy->id]);
 
