@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\AppException;
-use App\Models\EngineTask;
+use App\Models\MachineLearningTask;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
@@ -28,7 +28,7 @@ class EngineService
 
     private function createTask(string $taskId, string $taskType, string $inputType, string $input, string $resultType)
     {
-        EngineTask::create([
+        MachineLearningTask::create([
             'task_id' => $taskId,
             'task_type' => $taskType,
             'task_status' => 'PENDING',
@@ -42,7 +42,7 @@ class EngineService
 
     private function updateTask(string $taskId, string $taskStatus, string $result)
     {
-        $task = EngineTask::where('task_id', $taskId)->first();
+        $task = MachineLearningTask::where('task_id', $taskId)->first();
         $task->task_status = $taskStatus;
         $task->result = $result;
         $task->save();
@@ -82,7 +82,7 @@ class EngineService
 
     public function getTranslationResult(string $taskId)
     {
-        $task = EngineTask::where('task_id', $taskId)->first();
+        $task = MachineLearningTask::where('task_id', $taskId)->first();
 
         return ['status' => $task->task_status, 'text' => $task->result];
     }

@@ -48,8 +48,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->withTimestamps()->with('policies');
     }
 
-    public function engineTasks()
+    public function machineLearningTasks()
     {
-        return $this->hasMany(EngineTask::class);
+        return $this->hasMany(MachineLearningTask::class);
     }
 }

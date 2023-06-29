@@ -11,8 +11,8 @@ class AiModel extends Model
 
     protected $guarded = [];
 
-    public function engineTasks()
+    public function machineLearningTasks()
     {
-        return $this->belongsToMany(EngineTask::class)->withTimestamps();
+        return $this->belongsToMany(MachineLearningTask::class)->withTimestamps();
     }
 }

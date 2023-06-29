@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\AiModel;
-use App\Models\EngineTask;
+use App\Models\MachineLearningTask;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +22,7 @@ class EngineUsage
 
         foreach ($ai_models as $ai_model) {
 
-            $engineTask = EngineTask::where('task_id', $task_id)->first();
+            $machineLearningTask = MachineLearningTask::where('task_id', $task_id)->first();
 
             $aiModel = AiModel::firstOrCreate([
                 'name' => $ai_model['name'],
@@ -30,7 +30,7 @@ class EngineUsage
                 'usage_type' => $ai_model['usage_type'],
             ]);
 
-            $engineTask->aiModels()->attach($aiModel->id, ['usage' => $ai_model['usage']]);
+            $machineLearningTask->aiModels()->attach($aiModel->id, ['usage' => $ai_model['usage']]);
         }
 
         return $next($request);
