@@ -26,13 +26,15 @@ class EngineService
         $this->baseHook = config('app.engine_hook_url');
     }
 
-    private function createTask(string $taskId, string $taskType, string $resultType)
+    private function createTask(string $taskId, string $taskType, string $inputType, string $input, string $resultType)
     {
         EngineTask::create([
             'task_id' => $taskId,
             'task_type' => $taskType,
             'task_status' => 'PENDING',
             'user_id' => auth()->user()->id,
+            'input_type' => $inputType,
+            'input' => $input,
             'result_type' => $resultType,
             'result' => '',
         ]);
@@ -63,7 +65,14 @@ class EngineService
             ]);
             $contents = json_decode($result->getBody()->getContents());
 
-            $this->createTask($contents->task_id, 'TRANSLATION', 'TEXT');
+            $input = json_encode([
+                'original_language' => $originalLanguage,
+                'target_language' => $targetLanguage,
+                'text_type' => $textType,
+                'text' => $text,
+            ]);
+
+            $this->createTask($contents->task_id, 'TRANSLATION', 'JSON', $input, 'TEXT');
 
             return $contents;
         } catch (GuzzleException $e) {
