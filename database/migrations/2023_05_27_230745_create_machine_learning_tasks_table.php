@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('engine_tasks', function (Blueprint $table) {
+        Schema::create('machine_learning_tasks', function (Blueprint $table) {
             $table->id();
             $table->string('task_id');
             $table->string('task_type');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('engine_tasks');
+        Schema::dropIfExists('machine_learning_tasks');
     }
 };
