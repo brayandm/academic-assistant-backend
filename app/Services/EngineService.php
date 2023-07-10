@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\AppException;
 use App\Models\MachineLearningTask;
+use App\Models\TaskType;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
@@ -26,11 +27,11 @@ class EngineService
         $this->baseHook = config('app.engine_hook_url');
     }
 
-    private function createTask(string $taskId, string $taskType, string $inputType, string $input, string $resultType)
+    private function createTask(string $taskId, int $taskTypeId, string $inputType, string $input, string $resultType)
     {
         MachineLearningTask::create([
             'task_id' => $taskId,
-            'task_type' => $taskType,
+            'task_type_id' => $taskTypeId,
             'task_status' => 'PENDING',
             'user_id' => auth()->user()->id,
             'input_type' => $inputType,
@@ -72,7 +73,12 @@ class EngineService
                 'text' => $text,
             ]);
 
-            $this->createTask($contents->task_id, 'TRANSLATION', 'JSON', $input, 'TEXT');
+            $taskType = TaskType::where('task_type', 'TRANSLATION')->first();
+
+            if(!$taskType)
+                throw new AppException('Error in Engine Service', 'Task Type not found');
+
+            $this->createTask($contents->task_id, $taskType->id, 'JSON', $input, 'TEXT');
 
             return $contents;
         } catch (GuzzleException $e) {

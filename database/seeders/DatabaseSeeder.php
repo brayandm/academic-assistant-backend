@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Policy;
 use App\Models\Role;
+use App\Models\TaskType;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -80,5 +81,11 @@ class DatabaseSeeder extends Seeder
         $student->roles()->sync([$studentRole->id]);
         $teacher->roles()->sync([$studentRole->id, $teacherRole->id]);
         $admin->roles()->sync([$studentRole->id, $teacherRole->id, $adminRole->id]);
+
+        // TASK TYPES
+
+        $translationTaskType = TaskType::factory()->create([
+            'name' => 'TRANSLATION',
+        ]);
     }
 }
