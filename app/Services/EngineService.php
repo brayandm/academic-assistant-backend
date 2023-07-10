@@ -75,8 +75,9 @@ class EngineService
 
             $taskType = TaskType::where('task_type', 'TRANSLATION')->first();
 
-            if(!$taskType)
+            if (! $taskType) {
                 throw new AppException('Error in Engine Service', 'Task Type not found');
+            }
 
             $this->createTask($contents->task_id, $taskType->id, 'JSON', $input, 'TEXT');
 
