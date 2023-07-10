@@ -26,7 +26,7 @@ class TaskType extends Model
 
             foreach ($quotas as $quota) {
                 if ($quota->id == $aiModel->id) {
-                    if($quota->pivot->quota > 0) {
+                    if ($quota->pivot->quota > 0) {
                         $hasQuota = true;
                     }
                 }
