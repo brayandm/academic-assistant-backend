@@ -55,6 +55,6 @@ class User extends Authenticatable
 
     public function quotas()
     {
-        return $this->belongsToMany(AiModel::class, 'user_quotas', 'user_id', 'ai_model_id')->withTimestamps();
+        return $this->belongsToMany(AiModel::class, 'user_quotas', 'user_id', 'ai_model_id')->withTimestamps()->withPivot('quota');
     }
 }

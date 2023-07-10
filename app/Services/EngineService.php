@@ -57,7 +57,7 @@ class EngineService
             throw new AppException('Error in Engine Service', 'Task Type not found');
         }
 
-        if (! $taskType->userHasQuota()) {
+        if (! $taskType->userHasQuota(auth()->user())) {
             throw new AppException('Error in Engine Service', 'User has no quota to execute this task type');
         }
 
