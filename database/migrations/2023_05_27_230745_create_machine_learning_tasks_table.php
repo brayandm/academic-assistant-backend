@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('machine_learning_tasks', function (Blueprint $table) {
             $table->id();
             $table->string('task_id');
-            $table->string('task_type_id');
+            $table->foreignId('task_type_id')->constrained();
             $table->string('task_status');
             $table->foreignId('user_id')->constrained();
             $table->string('input_type');
