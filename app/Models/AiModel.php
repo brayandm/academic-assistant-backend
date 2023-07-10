@@ -15,4 +15,9 @@ class AiModel extends Model
     {
         return $this->belongsToMany(MachineLearningTask::class, 'ai_models_usage', 'ai_model_id', 'machine_learning_task_id')->withTimestamps();
     }
+
+    public function taskTypes()
+    {
+        return $this->belongsToMany(TaskType::class)->withTimestamps();
+    }
 }

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TaskType extends Model
 {
     use HasFactory;
+
+    public function aiModels()
+    {
+        return $this->belongsToMany(AiModel::class)->withTimestamps();
+    }
 }

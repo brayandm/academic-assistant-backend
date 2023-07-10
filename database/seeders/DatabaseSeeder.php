@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\AiModel;
 use App\Models\Policy;
 use App\Models\Role;
 use App\Models\TaskType;
@@ -87,5 +88,17 @@ class DatabaseSeeder extends Seeder
         $translationTaskType = TaskType::factory()->create([
             'name' => 'TRANSLATION',
         ]);
+
+        // AI MODELS
+
+        $gpt_3_5_turbo = AiModel::factory()->create([
+            'name' => 'gpt-3.5-turbo',
+            'option' => 'chat-completion',
+            'usage_type' => 'tokens',
+        ]);
+
+        // ATTACH AI MODELS TO TASK TYPES
+
+        $translationTaskType->aiModels()->sync([$gpt_3_5_turbo->id]);
     }
 }
