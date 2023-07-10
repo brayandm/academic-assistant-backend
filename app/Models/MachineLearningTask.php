@@ -18,6 +18,6 @@ class MachineLearningTask extends Model
 
     public function aiModels()
     {
-        return $this->belongsToMany(AiModel::class)->withTimestamps();
+        return $this->belongsToMany(AiModel::class, 'ai_models_usage', 'machine_learning_task_id', 'ai_model_id')->withTimestamps();
     }
 }
