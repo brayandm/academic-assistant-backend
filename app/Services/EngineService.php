@@ -73,7 +73,7 @@ class EngineService
                 'text' => $text,
             ]);
 
-            $taskType = TaskType::where('task_type', 'TRANSLATION')->first();
+            $taskType = TaskType::where('name', 'TRANSLATION')->first();
 
             if (! $taskType) {
                 throw new AppException('Error in Engine Service', 'Task Type not found');
