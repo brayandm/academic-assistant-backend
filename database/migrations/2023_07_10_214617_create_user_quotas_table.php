@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ai_model_machine_learning_task', function (Blueprint $table) {
+        Schema::create('user_quotas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('machine_learning_task_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('ai_model_id')->constrained()->onDelete('cascade');
-            $table->integer('usage');
+            $table->integer('quota');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ai_model_machine_learning_task');
+        Schema::dropIfExists('user_quotas');
     }
 };
