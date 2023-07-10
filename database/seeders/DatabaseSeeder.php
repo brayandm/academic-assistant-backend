@@ -100,5 +100,19 @@ class DatabaseSeeder extends Seeder
         // ATTACH AI MODELS TO TASK TYPES
 
         $translationTaskType->aiModels()->sync([$gpt_3_5_turbo->id]);
+
+        // USER QUOTAS
+
+        $student->quotas()->attach($gpt_3_5_turbo->id, [
+            'quota' => 100,
+        ]);
+
+        $teacher->quotas()->attach($gpt_3_5_turbo->id, [
+            'quota' => 1000,
+        ]);
+
+        $admin->quotas()->attach($gpt_3_5_turbo->id, [
+            'quota' => 10000,
+        ]);
     }
 }
