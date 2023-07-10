@@ -51,6 +51,16 @@ class EngineService
 
     public function createTranslationTask(string $originalLanguage, string $targetLanguage, string $textType, string $text)
     {
+        $taskType = TaskType::where('name', 'TRANSLATION')->first();
+
+        if (! $taskType) {
+            throw new AppException('Error in Engine Service', 'Task Type not found');
+        }
+
+        if(! $taskType->userHasQuota()) {
+            throw new AppException('Error in Engine Service', 'User has no quota to execute this task type');
+        }
+
         $url = '/translate';
 
         try {
@@ -72,12 +82,6 @@ class EngineService
                 'text_type' => $textType,
                 'text' => $text,
             ]);
-
-            $taskType = TaskType::where('name', 'TRANSLATION')->first();
-
-            if (! $taskType) {
-                throw new AppException('Error in Engine Service', 'Task Type not found');
-            }
 
             $this->createTask($contents->task_id, $taskType->id, 'JSON', $input, 'TEXT');
 

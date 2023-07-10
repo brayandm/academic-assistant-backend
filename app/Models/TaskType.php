@@ -13,4 +13,9 @@ class TaskType extends Model
     {
         return $this->belongsToMany(AiModel::class)->withTimestamps();
     }
+
+    public function userHasQuota()
+    {
+        return true;
+    }
 }
