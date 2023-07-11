@@ -2,19 +2,21 @@
 
 namespace App\Providers;
 
+use App\Helpers\RequestManager;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
-use App\Helpers\RequestManager;
 
-class RequestManagerServiceProvider extends ServiceProvider {
+class RequestManagerServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        //
+    }
 
-   public function boot() {
-      //
-   }
-
-   public function register() {
-    App::bind('requestManager',function() {
-        return new RequestManager();
-    });
-   }
+    public function register()
+    {
+        App::bind('requestManager', function () {
+            return new RequestManager();
+        });
+    }
 }

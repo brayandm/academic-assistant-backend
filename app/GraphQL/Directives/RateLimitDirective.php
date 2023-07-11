@@ -2,14 +2,14 @@
 
 namespace App\GraphQL\Directives;
 
+use App\Facades\RequestManagerFacades;
+use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\AuthenticationException;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Facades\RequestManagerFacades;
-use Exception;
 
 class RateLimitDirective extends BaseDirective implements FieldMiddleware
 {
@@ -46,7 +46,7 @@ class RateLimitDirective extends BaseDirective implements FieldMiddleware
                 throw new Exception('You must provide a rate and seconds argument in the graphql schema');
             }
 
-            if(! RequestManagerFacades::rateLimit($resolveInfo->fieldName,
+            if (! RequestManagerFacades::rateLimit($resolveInfo->fieldName,
                 $this->directiveArgValue('rate'),
                 $this->directiveArgValue('seconds'))) {
                 throw new AuthenticationException('Too many requests');

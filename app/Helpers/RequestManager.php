@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Redis;
 
