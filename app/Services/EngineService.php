@@ -65,8 +65,7 @@ class EngineService
         $url = '/translate';
 
         try {
-            if(! RequestManagerFacades::threadLimit('TRANSLATION', 1, 60))
-            {
+            if (! RequestManagerFacades::threadLimit('TRANSLATION', 1, 60)) {
                 throw new AppException('Error in Engine Service', 'Thread limit reached');
             }
 
