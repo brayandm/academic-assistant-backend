@@ -2,15 +2,14 @@
 
 namespace App\GraphQL\Directives;
 
-use Carbon\Carbon;
-use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Support\Facades\Redis;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Facades\RequestManagerFacades;
+use Exception;
 
 class RateLimitDirective extends BaseDirective implements FieldMiddleware
 {
@@ -43,26 +42,13 @@ class RateLimitDirective extends BaseDirective implements FieldMiddleware
         $fieldValue->wrapResolver(fn (callable $resolver) => function (mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($resolver) {
             // Do something before the resolver, e.g. validate $args, check authentication
 
-            $user = $context->user();
-
-            if (! $user) {
-                throw new AuthenticationException('Unauthenticated');
-            }
-
-            $rate = $this->directiveArgValue('rate');
-            $seconds = $this->directiveArgValue('seconds');
-
-            if (! $rate || ! $seconds) {
+            if (! $this->directiveArgValue('rate') || ! $this->directiveArgValue('seconds')) {
                 throw new Exception('You must provide a rate and seconds argument in the graphql schema');
             }
 
-            $key = $resolveInfo->fieldName.':'.$user->id.':'.floor(Carbon::now()->timestamp / $seconds);
-
-            if (Redis::setnx($key, 0)) {
-                Redis::expire($key, $seconds * 2);
-            }
-
-            if (Redis::incr($key, 1) > $rate) {
+            if(! RequestManagerFacades::rateLimit($resolveInfo->fieldName,
+                $this->directiveArgValue('rate'),
+                $this->directiveArgValue('seconds'))) {
                 throw new AuthenticationException('Too many requests');
             }
 
