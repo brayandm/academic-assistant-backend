@@ -37,7 +37,7 @@ class RequestManager
             throw new AuthenticationException('Unauthenticated');
         }
 
-        $key = $task.':'.$user->id.":"."threads";
+        $key = $task.':'.$user->id.':'.'threads';
 
         Redis::setnx($key, 0);
 
@@ -45,6 +45,7 @@ class RequestManager
 
         if (Redis::incr($key, 1) > $threads) {
             Redis::decr($key, 1);
+
             return false;
         }
 
@@ -59,7 +60,7 @@ class RequestManager
             throw new AuthenticationException('Unauthenticated');
         }
 
-        $key = $task.':'.$user->id.":"."threads";
+        $key = $task.':'.$user->id.':'.'threads';
 
         Redis::decr($key, 1);
     }
