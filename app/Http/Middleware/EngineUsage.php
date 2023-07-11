@@ -29,8 +29,6 @@ class EngineUsage
 
         Auth::login($user);
 
-        RequestManagerFacades::releaseThread('TRANSLATION');
-
         foreach ($ai_models as $ai_model) {
 
             $aiModel = AiModel::firstOrCreate([
