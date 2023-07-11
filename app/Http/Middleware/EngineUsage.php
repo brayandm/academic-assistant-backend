@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Facades\RequestManagerFacades;
 use App\Models\AiModel;
 use App\Models\MachineLearningTask;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EngineUsage
@@ -21,9 +23,15 @@ class EngineUsage
         $task_id = $request->all()['task_id'];
         $ai_models = $request->all()['ai_models'];
 
-        foreach ($ai_models as $ai_model) {
+        $machineLearningTask = MachineLearningTask::where('task_id', $task_id)->first();
 
-            $machineLearningTask = MachineLearningTask::where('task_id', $task_id)->first();
+        $user = User::find($machineLearningTask->user_id);
+
+        Auth::login($user);
+
+        RequestManagerFacades::releaseThread('TRANSLATION');
+
+        foreach ($ai_models as $ai_model) {
 
             $aiModel = AiModel::firstOrCreate([
                 'name' => $ai_model['name'],
@@ -32,8 +40,6 @@ class EngineUsage
             ]);
 
             $machineLearningTask->aiModels()->attach($aiModel->id, ['usage' => $ai_model['usage']]);
-
-            $user = User::find($machineLearningTask->user_id);
 
             $quota = $user->quotas()->where('ai_model_id', $aiModel->id)->first();
 

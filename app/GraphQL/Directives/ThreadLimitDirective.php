@@ -11,7 +11,7 @@ use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class RateLimitDirective extends BaseDirective implements FieldMiddleware
+class ThreadLimitDirective extends BaseDirective implements FieldMiddleware
 {
     public static function definition(): string
     {
@@ -19,17 +19,21 @@ class RateLimitDirective extends BaseDirective implements FieldMiddleware
             /** @lang GraphQL */
             <<<'GRAPHQL'
             """
-            Limit requests per some amount of seconds.
+            Limit the number of pending requests for a user.
             """
-            directive @rateLimit(
+            directive @threadLimit(
                 """
-                The maximum number of requests.
+                The name of the task.
                 """
-                rate: Int!
+                task: String!
                 """
-                The number of seconds before the limit resets.
+                The maximum number of threads.
                 """
-                seconds: Int!
+                threads: Int!
+                """
+                The number of seconds after which the thread limit will expire.
+                """
+                expiration: Int!
             ) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
             GRAPHQL;
     }
@@ -42,14 +46,14 @@ class RateLimitDirective extends BaseDirective implements FieldMiddleware
         $fieldValue->wrapResolver(fn (callable $resolver) => function (mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($resolver) {
             // Do something before the resolver, e.g. validate $args, check authentication
 
-            if (! $this->directiveArgValue('rate') || ! $this->directiveArgValue('seconds')) {
-                throw new Exception('You must provide a \'rate\' and \'seconds\' argument in the graphql schema');
+            if (! $this->directiveArgValue('task') || ! $this->directiveArgValue('threads') || ! $this->directiveArgValue('expiration')) {
+                throw new Exception('You must provide a \'task\', \'threads\' and \'expiration\' argument in the graphql schema');
             }
 
-            if (! RequestManagerFacades::rateLimit($resolveInfo->fieldName,
-                $this->directiveArgValue('rate'),
-                $this->directiveArgValue('seconds'))) {
-                throw new AuthenticationException('Too many requests');
+            if (! RequestManagerFacades::threadLimit($this->directiveArgValue('task'),
+                $this->directiveArgValue('threads'),
+                $this->directiveArgValue('expiration'))) {
+                throw new AuthenticationException('Too many threads');
             }
 
             // Call the actual resolver
