@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\AppException;
+use App\Facades\RequestManagerFacades;
 use App\Models\MachineLearningTask;
 use App\Models\TaskType;
 use GuzzleHttp\Client;
@@ -64,6 +65,11 @@ class EngineService
         $url = '/translate';
 
         try {
+            if(! RequestManagerFacades::threadLimit('TRANSLATION', 1, 60))
+            {
+                throw new AppException('Error in Engine Service', 'Thread limit reached');
+            }
+
             $result = $this->client->post($this->baseUrl.$url, [
                 RequestOptions::JSON => [
                     'user' => strval(auth()->user()->id),
@@ -87,6 +93,9 @@ class EngineService
 
             return $contents;
         } catch (GuzzleException $e) {
+
+            RequestManagerFacades::releaseThread('TRANSLATION');
+
             throw new AppException('Error in Engine Service', $e->getMessage());
         }
     }
@@ -101,5 +110,7 @@ class EngineService
     public function webhookTranslate(string $taskId, string $status, string $text)
     {
         $this->updateTask($taskId, $status, $text);
+
+        RequestManagerFacades::releaseThread('TRANSLATION');
     }
 }
