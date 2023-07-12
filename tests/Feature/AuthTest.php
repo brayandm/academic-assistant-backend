@@ -20,7 +20,7 @@ class AuthTest extends TestCase
     private function register()
     {
         $response = $this->post(
-            '/api/register',
+            '/api/v1/register',
             [
                 'name' => 'Testing User',
                 'email' => 'user@testing.com',
@@ -38,7 +38,7 @@ class AuthTest extends TestCase
         $this->markTestSkipped('Descomment Register in api');
 
         $response = $this->post(
-            '/api/register',
+            '/api/v1/register',
             [
                 'name' => 'Testing User',
                 'email' => 'user@testing.com',
@@ -72,7 +72,7 @@ class AuthTest extends TestCase
         //Register format incorrect
 
         $response = $this->post(
-            '/api/register',
+            '/api/v1/register',
             [
                 'name' => 'Testing User',
                 'email' => 'user',
@@ -88,7 +88,7 @@ class AuthTest extends TestCase
 
         //Login format incorrect
 
-        $response = $this->post('/api/login', [
+        $response = $this->post('/api/v1/login', [
             'email' => 'user',
             'password' => '12345678',
         ]);
@@ -99,7 +99,7 @@ class AuthTest extends TestCase
 
         //Login unauthenticated
 
-        $response = $this->post('/api/login', [
+        $response = $this->post('/api/v1/login', [
             'email' => 'user@testing.com',
             'password' => '123456789',
         ]);
@@ -110,7 +110,7 @@ class AuthTest extends TestCase
 
         //Login
 
-        $response = $this->post('/api/login', [
+        $response = $this->post('/api/v1/login', [
             'email' => 'user@testing.com',
             'password' => '12345678',
         ]);
@@ -125,7 +125,7 @@ class AuthTest extends TestCase
 
         //Logout
 
-        $response = $this->post('/api/logoutall', [], ['Authorization' => 'Bearer '.$token]);
+        $response = $this->post('/api/v1/logoutall', [], ['Authorization' => 'Bearer '.$token]);
 
         $response->assertStatus(200);
 

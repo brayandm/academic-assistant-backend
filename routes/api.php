@@ -14,30 +14,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::group(['prefix' => 'v1'], function () {
 
-// Route::post('/register', 'App\Http\Controllers\AuthController@register');
+    Route::post('/login', 'App\Http\Controllers\AuthController@login');
 
-Route::post('/login', 'App\Http\Controllers\AuthController@login');
+    // Route::post('/register', 'App\Http\Controllers\AuthController@register');
 
-// Route::post('/register', 'App\Http\Controllers\AuthController@register');
+    Route::middleware(['check.constant.connection', 'auth:sanctum'])->group(function () {
 
-Route::middleware(['check.constant.connection', 'auth:sanctum'])->group(function () {
+        Route::get('/verify', 'App\Http\Controllers\AuthController@verify');
 
-    Route::get('/verify', 'App\Http\Controllers\AuthController@verify');
+        Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
 
-    Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
+        Route::post('/logoutall', 'App\Http\Controllers\AuthController@logoutall');
 
-    Route::post('/logoutall', 'App\Http\Controllers\AuthController@logoutall');
-
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
     });
-});
 
-Route::middleware(['engine.auth', 'engine.usage'])->group(function () {
+    Route::middleware(['engine.auth', 'engine.usage'])->group(function () {
 
-    Route::post('/webhook/engine/translate', 'App\Http\Controllers\EngineController@webhookTranslate')->name('engine.webhook.translate');
+        Route::post('/webhook/engine/translate', 'App\Http\Controllers\EngineController@webhookTranslate')->name('engine.webhook.translate');
+    });
+
+    Route::middleware([])->group(function () {
+
+        Route::post('/streamer/task/create', 'App\Http\Controllers\StreamerController@createTask')->name('streamer.task.create');
+    });
 });

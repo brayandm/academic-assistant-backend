@@ -76,7 +76,7 @@ class EngineService
                     'target_language' => $targetLanguage,
                     'text_type' => $textType,
                     'text' => $text,
-                    'hook' => $this->baseHook.'/api/webhook/engine/translate',
+                    'hook' => $this->baseHook.'/api/v1/webhook/engine/translate',
                 ],
             ]);
             $contents = json_decode($result->getBody()->getContents());
