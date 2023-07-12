@@ -26,7 +26,7 @@ class StreamerController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        if($this->streamerService->accessControl($request->token, $request->task_type)) {
+        if ($this->streamerService->accessControl($request->token, $request->task_type)) {
             return response()->json(['message' => 'Access granted'], 200);
         }
 
