@@ -89,6 +89,22 @@ class DatabaseSeeder extends Seeder
             'name' => 'TRANSLATION',
         ]);
 
+        $chatCompletionTaskType = TaskType::factory()->create([
+            'name' => 'CHAT_COMPLETION',
+        ]);
+
+        $textToSpeechStandardTaskType = TaskType::factory()->create([
+            'name' => 'TEXT_TO_SPEECH_STANDARD',
+        ]);
+
+        $textToSpeechNeuralTaskType = TaskType::factory()->create([
+            'name' => 'TEXT_TO_SPEECH_NEURAL',
+        ]);
+
+        $speechToTextTaskType = TaskType::factory()->create([
+            'name' => 'SPEECH_TO_TEXT',
+        ]);
+
         // AI MODELS
 
         $gpt_3_5_turbo = AiModel::factory()->create([
@@ -97,9 +113,35 @@ class DatabaseSeeder extends Seeder
             'usage_type' => 'tokens',
         ]);
 
+        $awsPollyStandard = AiModel::factory()->create([
+            'name' => 'aws-polly',
+            'option' => 'standard-voice',
+            'usage_type' => 'characters',
+        ]);
+
+        $awsPollyNeural = AiModel::factory()->create([
+            'name' => 'aws-polly',
+            'option' => 'neural-voice',
+            'usage_type' => 'characters',
+        ]);
+
+        $awsTranscribe = AiModel::factory()->create([
+            'name' => 'aws-transcribe',
+            'option' => 'speech-to-text',
+            'usage_type' => 'seconds',
+        ]);
+
         // ATTACH AI MODELS TO TASK TYPES
 
         $translationTaskType->aiModels()->sync([$gpt_3_5_turbo->id]);
+
+        $chatCompletionTaskType->aiModels()->sync([$gpt_3_5_turbo->id]);
+
+        $textToSpeechStandardTaskType->aiModels()->sync([$awsPollyStandard->id]);
+
+        $textToSpeechNeuralTaskType->aiModels()->sync([$awsPollyNeural->id]);
+
+        $speechToTextTaskType->aiModels()->sync([$awsTranscribe->id]);
 
         // USER QUOTAS
 
@@ -113,6 +155,18 @@ class DatabaseSeeder extends Seeder
 
         $admin->quotas()->attach($gpt_3_5_turbo->id, [
             'quota' => 10000,
+        ]);
+
+        $admin->quotas()->attach($awsPollyStandard->id, [
+            'quota' => 10000,
+        ]);
+
+        $admin->quotas()->attach($awsPollyNeural->id, [
+            'quota' => 10000,
+        ]);
+
+        $admin->quotas()->attach($awsTranscribe->id, [
+            'quota' => 60,
         ]);
     }
 }
