@@ -18,13 +18,13 @@ class StreamerService
         $token = DB::table('personal_access_tokens')->where('token', $tokenHash)->first();
 
         if (! $token) {
-            return false;
+            return null;
         }
 
         $user = User::find($token->tokenable_id);
 
         if (! $user) {
-            return false;
+            return null;
         }
 
         $taskType = TaskType::where('name', $taskTypeName)->first();
@@ -33,7 +33,12 @@ class StreamerService
             throw new AppException('Error in Engine Service', 'Task Type not found');
         }
 
-        return $taskType->userHasQuota($user);
+        if(!$taskType->userHasQuota($user))
+        {
+            return null;
+        }
+
+        return $user;
     }
 
     public function createTask(string $taskId, string $taskTypeName, string $taskStatus, int $userId, string $inputType, string $input, string $resultType, string $result, array $ai_models)

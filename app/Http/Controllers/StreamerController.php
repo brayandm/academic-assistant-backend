@@ -26,11 +26,13 @@ class StreamerController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        if ($this->streamerService->accessControl($request->token, $request->task_type)) {
-            return response()->json(['message' => 'Access granted'], 200);
+        $user = $this->streamerService->accessControl($request->token, $request->task_type);
+
+        if ($user) {
+            return response()->json(['user_id' => $user->id, 'message' => 'Access granted'], 200);
         }
 
-        return response()->json(['message' => 'Access denied'], 403);
+        return response()->json(['user_id' => null, 'message' => 'Access denied'], 403);
     }
 
     public function createTask(Request $request)
