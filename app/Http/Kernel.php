@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'check.constant.connection' => \App\Http\Middleware\CheckConstantConnection::class,
         'engine.auth' => \App\Http\Middleware\EngineAuth::class,
         'engine.usage' => \App\Http\Middleware\EngineUsage::class,
+        'streamer.auth' => \App\Http\Middleware\StreamerAuth::class,
     ];
 
     protected $middlewarePriority = [

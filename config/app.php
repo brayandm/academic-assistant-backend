@@ -191,4 +191,6 @@ return [
     'engine_api_url' => env('ENGINE_API_URL'),
 
     'engine_hook_url' => env('ENGINE_HOOK_URL'),
+
+    'streamer_api_token' => env('STREAMER_API_TOKEN'),
 ];

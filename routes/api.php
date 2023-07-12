@@ -38,7 +38,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/webhook/engine/translate', 'App\Http\Controllers\EngineController@webhookTranslate')->name('engine.webhook.translate');
     });
 
-    Route::middleware([])->group(function () {
+    Route::middleware(['streamer.auth'])->group(function () {
 
         Route::post('/streamer/task/access-control', 'App\Http\Controllers\StreamerController@accessControl')->name('streamer.task.access.control');
         Route::post('/streamer/task/create', 'App\Http\Controllers\StreamerController@createTask')->name('streamer.task.create');
