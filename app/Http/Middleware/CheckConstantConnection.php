@@ -23,9 +23,9 @@ class CheckConstantConnection
             abort(401, 'Unauthenticated');
         }
 
-        $tokenId = explode('|', $access_token)[0];
+        $tokenHash = hash('sha256', explode('|', $access_token)[1]);
 
-        $token = DB::table('personal_access_tokens')->where('id', $tokenId)->first();
+        $token = DB::table('personal_access_tokens')->where('token', $tokenHash)->first();
 
         if (! $token) {
             abort(401, 'Unauthenticated');
