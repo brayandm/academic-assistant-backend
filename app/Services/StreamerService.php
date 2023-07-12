@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\AppException;
+use App\Models\AiModel;
 use App\Models\MachineLearningTask;
 use App\Models\TaskType;
 use App\Models\User;
@@ -35,7 +36,7 @@ class StreamerService
         return $taskType->userHasQuota($user);
     }
 
-    public function createTask(string $taskId, string $taskTypeName, string $taskStatus, int $userId, string $inputType, string $input, string $resultType, string $result)
+    public function createTask(string $taskId, string $taskTypeName, string $taskStatus, int $userId, string $inputType, string $input, string $resultType, string $result, array $ai_models)
     {
         $taskType = TaskType::where('name', $taskTypeName)->first();
 
@@ -43,7 +44,7 @@ class StreamerService
             throw new AppException('Error in Engine Service', 'Task Type not found');
         }
 
-        MachineLearningTask::create([
+        $machineLearningTask = MachineLearningTask::create([
             'task_id' => $taskId,
             'task_type_id' => $taskType->id,
             'task_status' => $taskStatus,
@@ -53,5 +54,24 @@ class StreamerService
             'result_type' => $resultType,
             'result' => $result,
         ]);
+
+        $user = User::find($userId);
+
+        foreach ($ai_models as $ai_model) {
+
+            $aiModel = AiModel::firstOrCreate([
+                'name' => $ai_model['name'],
+                'option' => $ai_model['option'],
+                'usage_type' => $ai_model['usage_type'],
+            ]);
+
+            $machineLearningTask->aiModels()->attach($aiModel->id, ['usage' => $ai_model['usage']]);
+
+            $quota = $user->quotas()->where('ai_model_id', $aiModel->id)->first();
+
+            $user->quotas()->updateExistingPivot($aiModel->id, ['quota' => $quota->pivot->quota - $ai_model['usage']]);
+
+            $quota->save();
+        }
     }
 }

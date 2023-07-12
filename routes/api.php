@@ -40,7 +40,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::middleware([])->group(function () {
 
-        Route::get('/streamer/task/access-control', 'App\Http\Controllers\StreamerController@accessControl')->name('streamer.task.access.control');
+        Route::post('/streamer/task/access-control', 'App\Http\Controllers\StreamerController@accessControl')->name('streamer.task.access.control');
         Route::post('/streamer/task/create', 'App\Http\Controllers\StreamerController@createTask')->name('streamer.task.create');
     });
 });

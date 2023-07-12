@@ -44,12 +44,13 @@ class StreamerController extends Controller
             'input' => 'required|string|max:5000',
             'result_type' => 'required|string|max:256',
             'result' => 'required|string|max:10000',
+            'ai_models' => 'required|json',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $this->streamerService->createTask($request->task_id, $request->task_type, $request->task_status, $request->user_id, $request->input_type, $request->input, $request->result_type, $request->result);
+        $this->streamerService->createTask($request->task_id, $request->task_type, $request->task_status, $request->user_id, $request->input_type, $request->input, $request->result_type, $request->result, json_decode($request->ai_models, true));
     }
 }
