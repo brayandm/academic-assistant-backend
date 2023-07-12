@@ -33,8 +33,7 @@ class StreamerService
             throw new AppException('Error in Engine Service', 'Task Type not found');
         }
 
-        if(!$taskType->userHasQuota($user))
-        {
+        if (! $taskType->userHasQuota($user)) {
             return null;
         }
 
