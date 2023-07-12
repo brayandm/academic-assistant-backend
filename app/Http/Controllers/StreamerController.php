@@ -15,6 +15,24 @@ class StreamerController extends Controller
         $this->streamerService = $streamerService;
     }
 
+    public function accessControl(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required|string|max:256',
+            'task_type' => 'required|string|max:256',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        if($this->streamerService->accessControl($request->token, $request->task_type)) {
+            return response()->json(['message' => 'Access granted'], 200);
+        }
+
+        return response()->json(['message' => 'Access denied'], 403);
+    }
+
     public function createTask(Request $request)
     {
         $validator = Validator::make($request->all(), [
