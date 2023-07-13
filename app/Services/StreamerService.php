@@ -48,8 +48,10 @@ class StreamerService
             throw new AppException('Error in Engine Service', 'Task Type not found');
         }
 
-        $machineLearningTask = MachineLearningTask::create([
-            'task_id' => $taskId,
+        $machineLearningTask = MachineLearningTask::updateOrCreate([
+            'task_id' => $taskId
+        ],
+        [
             'task_type_id' => $taskType->id,
             'task_status' => $taskStatus,
             'user_id' => $userId,
