@@ -49,17 +49,17 @@ class StreamerService
         }
 
         $machineLearningTask = MachineLearningTask::updateOrCreate([
-            'task_id' => $taskId
+            'task_id' => $taskId,
         ],
-        [
-            'task_type_id' => $taskType->id,
-            'task_status' => $taskStatus,
-            'user_id' => $userId,
-            'input_type' => $inputType,
-            'input' => $input,
-            'result_type' => $resultType,
-            'result' => $result,
-        ]);
+            [
+                'task_type_id' => $taskType->id,
+                'task_status' => $taskStatus,
+                'user_id' => $userId,
+                'input_type' => $inputType,
+                'input' => $input,
+                'result_type' => $resultType,
+                'result' => $result,
+            ]);
 
         $user = User::find($userId);
 
