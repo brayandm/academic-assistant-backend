@@ -14,29 +14,39 @@ class TaskType extends Model
         return $this->belongsToMany(AiModel::class)->withTimestamps();
     }
 
-    public function userHasQuota($user)
+    public function userQuota($user)
     {
         $quotas = $user->quotas()->get();
 
         $aiModels = $this->aiModels()->get();
 
+        $modelQuotas = [];
+
         foreach ($aiModels as $aiModel) {
 
-            $hasQuota = false;
+            $quotaLeft = 0;
 
             foreach ($quotas as $quota) {
                 if ($quota->id == $aiModel->id) {
                     if ($quota->pivot->quota > 0) {
-                        $hasQuota = true;
+                        $quotaLeft = $quota->pivot->quota;
+                        break;
                     }
                 }
             }
 
-            if (! $hasQuota) {
-                return false;
+            if ($quotaLeft <= 0) {
+                return null;
             }
+
+            $modelQuotas[$aiModel->name] = $quotaLeft;
         }
 
-        return true;
+        return $modelQuotas;
+    }
+
+    public function userHasQuota($user)
+    {
+        return $this->userQuota($user) !== null;
     }
 }
