@@ -33,11 +33,13 @@ class StreamerService
             throw new AppException('Error in Engine Service', 'Task Type not found');
         }
 
-        if (! $taskType->userHasQuota($user)) {
+        $quota = $taskType->userQuota($user);
+
+        if($quota === null){
             return null;
         }
 
-        return $user;
+        return ['user' => $user, 'quota' => $quota];
     }
 
     public function createTask(string $taskId, string $taskTypeName, string $taskStatus, int $userId, string $inputType, string $input, string $resultType, string $result, array $ai_models)
