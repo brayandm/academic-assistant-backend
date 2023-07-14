@@ -35,7 +35,7 @@ class StreamerService
 
         $quota = $taskType->userQuota($user);
 
-        if($quota === null){
+        if ($quota === null) {
             return null;
         }
 
